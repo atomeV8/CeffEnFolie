@@ -128,15 +128,31 @@ public class SimonController : MonoBehaviour
     }
 
     private float elapsed = 0f;
+    private void pause = false;
     void Update()
     {
         if (sequenceFase)
         {
-            elapsed += Time.deltaTime;
-            if (elapsed >= 1f)
+             if (!pause)
             {
-                elapsed = elapsed % 1f;
-                ReadSequence();
+                elapsed += Time.deltaTime;
+                if (elapsed >= 1f)
+                {
+                    elapsed = elapsed % 1f;
+                    ReadSequence();
+                    pause = true;
+                }
+            }
+            
+            if (pause)
+            {
+                elapsed += Time.deltaTime;
+                if (elapsed >= 1f)
+                {
+                    elapsed = elapsed % 1f;
+                    ReadSequence();
+                    pause = false;
+                }
             }
         }
     }
